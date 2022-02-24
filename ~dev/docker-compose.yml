@@ -6,7 +6,7 @@ services:
     ports:
       - 8082:8082
     volumes:
-      - ../sql:/etc/labs/sql
+      - ../labs:/etc/labs/sql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_ROOT_PASSWORD=1234
