@@ -1,4 +1,4 @@
-DROP DATABASE BookShop;
+DROP DATABASE IF EXISTS BookShop;
 CREATE DATABASE BookShop;
 # COLLATE Cyrillic_General_CI_AS;
 USE BookShop;

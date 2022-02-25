@@ -1,4 +1,4 @@
-DROP DATABASE CarHotel;
+DROP DATABASE IF EXISTS CarHotel;
 CREATE DATABASE CarHotel;
 # COLLATE Cyrillic_General_CI_AS;
 USE CarHotel;
@@ -54,6 +54,20 @@ CREATE TABLE IF NOT EXISTS booking_store (
     FOREIGN KEY (id_booking_data) REFERENCES booking_data(id_booking_data)
 );
 
+# cleaner
+
+INSERT INTO cleaner(birthday, name, address, eye_color)
+VALUE ('2020-12-12', 'Василий', 'Успенская, д. 12', 'зеленый');
+
+INSERT INTO cleaner(birthday, name, address, eye_color)
+VALUE ('1940-02-02', 'Илья', 'Крайовская, д. 12', 'карий');
+
+INSERT INTO cleaner(birthday, name, address, eye_color)
+VALUE ('2001-08-04', 'Иван', 'Уличная, д. 12', 'синий');
+
+INSERT INTO cleaner(birthday, name, address, eye_color)
+VALUE ('1998-11-06', 'Петр', 'Владимирская, д. 12', 'голубосерый');
+
 # client
 
 INSERT INTO client(birthday, name, address, eye_color)
@@ -81,20 +95,6 @@ VALUE ('1', '2022-12-12', '9949', 'Белый чай и как правильн�
 
 INSERT INTO hotel_room(id_cleaner, create_date, price, style_name, number)
 VALUE ('2', '1989-12-12', '3', 'Как не готовить зеленый чай', '103');
-
-# cleaner
-
-INSERT INTO cleaner(birthday, name, address, eye_color)
-VALUE ('2020-12-12', 'Василий', 'Успенская, д. 12', 'зеленый');
-
-INSERT INTO cleaner(birthday, name, address, eye_color)
-VALUE ('1940-02-02', 'Илья', 'Крайовская, д. 12', 'карий');
-
-INSERT INTO cleaner(birthday, name, address, eye_color)
-VALUE ('2001-08-04', 'Иван', 'Уличная, д. 12', 'синий');
-
-INSERT INTO cleaner(birthday, name, address, eye_color)
-VALUE ('1998-11-06', 'Петр', 'Владимирская, д. 12', 'голубосерый');
 
 # car
 
