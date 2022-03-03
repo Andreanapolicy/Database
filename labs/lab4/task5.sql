@@ -237,3 +237,13 @@ SELECT * FROM car GROUP BY id_car HAVING MAX(price) > 30000;
 SELECT * FROM hotel_room GROUP BY id_hotel_room HAVING MAX(price) > 300;
 # == get hotel rooms with price more only 300 ==
 SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
+
+# ===== 9. JOINS =====
+# == LEFT JOIN ==
+SELECT * FROM car LEFT JOIN client c on car.id_client = c.id_client WHERE price > 20000;
+# == RIGHT JOIN ==
+SELECT * FROM car RIGHT JOIN client c on car.id_client = c.id_client WHERE price > 20000;
+# == LEFT JOIN 3 tables ==
+SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
+# == INNER JOIN ==
+SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
