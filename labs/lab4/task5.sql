@@ -5,7 +5,7 @@ USE CarHotel;
 
 CREATE TABLE IF NOT EXISTS client (
     id_client INT PRIMARY KEY AUTO_INCREMENT,
-    birthday DATE NOT NULL,
+    birthday DATETIME NOT NULL,
     name VARCHAR(100) NOT NULL,
     address VARCHAR(100) NOT NULL,
     eye_color VARCHAR(50) NULL
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS client (
 
 CREATE TABLE IF NOT EXISTS cleaner (
     id_cleaner INT PRIMARY KEY AUTO_INCREMENT,
-    birthday DATE NOT NULL,
+    birthday DATETIME NOT NULL,
     name VARCHAR(100) NOT NULL,
     address VARCHAR(100) NOT NULL,
     eye_color VARCHAR(50) NULL
@@ -154,7 +154,6 @@ VALUE ('4', '3');
 
 # ===== 2. Deleting =====
 # == All records ==
-
 DELETE FROM booking_store;
 
 INSERT INTO booking_store(id_hotel_room, id_booking_data)
@@ -177,27 +176,64 @@ DELETE FROM booking_store WHERE id_hotel_room = 2;
 
 # ===== 3. Update =====
 # == all records ==
-
 UPDATE car SET name = 'Быстритель 20к';
-
 # == one name with price 20k ==
-
 UPDATE car SET name = 'Самый быстрый из быстрейших' WHERE price = '20000';
-
 # == one name and date car with price 4123123 ==
-
 UPDATE car SET name = 'Лакшери', birthday = '2022-03-02' WHERE price = '4123123';
 
 # ===== 4. Select =====
 # == only client names and eye color ==
-
 SELECT name, eye_color FROM client;
-
 # == all clients ==
-
 SELECT * FROM client;
-
 # == only clients with blue eyes ==
-
 SELECT * FROM client WHERE eye_color = 'синий';
 
+# ===== 5. Select order by =====
+# == asc + limit ==
+SELECT * FROM car ORDER BY price ASC LIMIT 2;
+# == desc ==
+SELECT * FROM car ORDER BY price DESC;
+# == price and birthday + limit ==
+SELECT * FROM car ORDER BY birthday, price DESC LIMIT 3;
+# == price and birthday ==
+SELECT * FROM car ORDER BY birthday, price DESC LIMIT 3;
+
+# ===== 6. Dates =====
+# == where ==
+SELECT * FROM client WHERE birthday = '1940-02-02';
+# == where in range ==
+SELECT * FROM client WHERE birthday BETWEEN '1940-02-02' AND '1998-11-06';
+# == get only year ==
+SELECT name, YEAR(birthday) AS birthday FROM client;
+
+# ===== 7. Aggregation =====
+# == records count ==
+SELECT COUNT(*) FROM client;
+# == unique records count ==
+SELECT COUNT(DISTINCT id_client) FROM client;
+# == unique records ==
+SELECT DISTINCT eye_color FROM client;
+# == max record by price ==
+SELECT MAX(price) FROM car;
+# == min record by price ==
+SELECT MIN(price) FROM car;
+# == count + group by ==
+SELECT COUNT(eye_color) FROM client GROUP BY eye_color;
+
+# ===== 8. SELECT + GROUP BY + HAVING =====
+# == Get max car price, that more then 30k ==
+SELECT * FROM car GROUP BY id_car HAVING MAX(price) > 30000;
+# == get hotel rooms with price more than 300 ==
+SELECT * FROM hotel_room GROUP BY id_hotel_room HAVING MAX(price) > 300;
+# == get hotel rooms with price more only 300 ==
+SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
+
+# ===== 8. SELECT + GROUP BY + HAVING =====
+# == Get max car price, that more then 30k ==
+SELECT * FROM car GROUP BY id_car HAVING MAX(price) > 30000;
+# == get hotel rooms with price more than 300 ==
+SELECT * FROM hotel_room GROUP BY id_hotel_room HAVING MAX(price) > 300;
+# == get hotel rooms with price more only 300 ==
+SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
