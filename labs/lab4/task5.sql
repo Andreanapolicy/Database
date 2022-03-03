@@ -136,7 +136,7 @@ INSERT INTO booking_data(id_client, start_date, end_date, pay)
 VALUE ('3', '2012-02-02', '2013-02-03', '300');
 
 INSERT INTO booking_data(id_client, start_date, end_date, pay)
-VALUE ('4', '2014-02-02', '2014-02-03', '300');
+VALUE ('4', '2014-02-02', '2014-02-03', '3010');
 
 # booking_store
 
@@ -247,4 +247,12 @@ SELECT * FROM car RIGHT JOIN client c on car.id_client = c.id_client WHERE price
 SELECT price, c.name, start_date, end_date FROM car LEFT JOIN client c on car.id_client = c.id_client LEFT JOIN booking_data bd on c.id_client = bd.id_client WHERE price > 20000;
 # == INNER JOIN ==
 SELECT * FROM booking_data INNER JOIN booking_store bs on booking_data.id_booking_data = bs.id_booking_data;
+
+# ===== 10. Requests =====
+# == IN ==
+SELECT * FROM booking_data WHERE id_client IN (SELECT id_client FROM client);
+# == select select... from ==
+SELECT (SELECT id_client FROM booking_data WHERE pay = '3010' LIMIT 1) FROM client;
+# == select from join ==
+SELECT client.name, booking_data.pay FROM client JOIN booking_data booking_data on client.id_client = booking_data.id_client;
 
