@@ -23,8 +23,9 @@ CREATE TABLE IF NOT EXISTS car (
     id_car INT PRIMARY KEY AUTO_INCREMENT,
     id_client INT NOT NULL,
     name VARCHAR(100) NOT NULL,
-    birthday DATE NOT NULL,
+    creation_date DATE NOT NULL,
     price INT NOT NULL,
+    rating INT NOT NULL,
     FOREIGN KEY (id_client) REFERENCES client(id_client)
 );
 
@@ -106,20 +107,20 @@ VALUE ('2', '1989-12-12', '3', 'Как не готовить зеленый ча
 
 # car
 
-INSERT INTO car(id_client, birthday, name, price)
-VALUE ('1', '1940-02-02', 'Урчатель', '20000');
+INSERT INTO car(id_client, creation_date, name, price, rating)
+VALUE ('1', '1940-02-02', 'Урчатель', '20000', '1');
 
-INSERT INTO car(id_client, birthday, name, price)
-VALUE ('2', '2004-02-02', 'Какушек', '30123');
+INSERT INTO car(id_client, creation_date, name, price, rating)
+VALUE ('2', '2004-02-02', 'Какушек', '30123', '3');
 
-INSERT INTO car(id_client, birthday, name, price)
-VALUE ('3', '1980-02-02', 'Стонатель', '4123123');
+INSERT INTO car(id_client, creation_date, name, price, rating)
+VALUE ('3', '1980-02-02', 'Стонатель', '4123123', '3');
 
-INSERT INTO car(id_client, birthday, name, price)
-VALUE ('4', '1937-02-02', 'Мамин соблазнитель', '11241');
+INSERT INTO car(id_client, creation_date, name, price, rating)
+VALUE ('4', '1937-02-02', 'Мамин соблазнитель', '11241', '2');
 
-INSERT INTO car(id_client, birthday, name, price)
-VALUE ('1', '2001-02-02', 'Гиспофилиций', '31231');
+INSERT INTO car(id_client, creation_date, name, price, rating)
+VALUE ('1', '2001-02-02', 'Гиспофилиций', '31231', '19');
 
 # booking_data
 
@@ -137,6 +138,18 @@ VALUE ('3', '2012-02-02', '2013-02-03', '300');
 
 INSERT INTO booking_data(id_client, start_date, end_date, pay)
 VALUE ('4', '2014-02-02', '2014-02-03', '3010');
+
+INSERT INTO booking_data(id_client, start_date, end_date, pay)
+VALUE ('1', '2014-02-02', '2014-02-03', '40302');
+
+INSERT INTO booking_data(id_client, start_date, end_date, pay)
+VALUE ('3', '2014-02-02', '2014-02-03', '222');
+
+INSERT INTO booking_data(id_client, start_date, end_date, pay)
+VALUE ('2', '2014-02-02', '2014-02-03', '230');
+
+INSERT INTO booking_data(id_client, start_date, end_date, pay)
+VALUE ('1', '2014-02-02', '2014-02-03', '10');
 
 # booking_store
 
@@ -169,10 +182,7 @@ INSERT INTO booking_store(id_hotel_room, id_booking_data)
 VALUE ('4', '3');
 
 # == only for hotel room 1 and 2 ==
-
 DELETE FROM booking_store WHERE id_hotel_room = 1;
-
-DELETE FROM booking_store WHERE id_hotel_room = 2;
 
 # ===== 3. Update =====
 # == all records ==
@@ -180,7 +190,7 @@ UPDATE car SET name = 'Быстритель 20к';
 # == one name with price 20k ==
 UPDATE car SET name = 'Самый быстрый из быстрейших' WHERE price = '20000';
 # == one name and date car with price 4123123 ==
-UPDATE car SET name = 'Лакшери', birthday = '2022-03-02' WHERE price = '4123123';
+UPDATE car SET name = 'Лакшери', creation_date = '2022-03-02' WHERE price = '4123123';
 
 # ===== 4. Select =====
 # == only client names and eye color ==
@@ -196,9 +206,9 @@ SELECT * FROM car ORDER BY price ASC LIMIT 2;
 # == desc ==
 SELECT * FROM car ORDER BY price DESC;
 # == price and birthday + limit ==
-SELECT * FROM car ORDER BY birthday, price DESC LIMIT 3;
+SELECT * FROM car ORDER BY creation_date, price DESC LIMIT 3;
 # == price and birthday ==
-SELECT * FROM car ORDER BY birthday, price DESC LIMIT 3;
+SELECT * FROM car ORDER BY creation_date, price DESC LIMIT 3;
 
 # ===== 6. Dates =====
 # == where ==
@@ -224,27 +234,21 @@ SELECT COUNT(eye_color) FROM client GROUP BY eye_color;
 
 # ===== 8. SELECT + GROUP BY + HAVING =====
 # == Get max car price, that more then 30k ==
-SELECT * FROM car GROUP BY id_car HAVING MAX(price) > 30000;
-# == get hotel rooms with price more than 300 ==
-SELECT * FROM hotel_room GROUP BY id_hotel_room HAVING MAX(price) > 300;
-# == get hotel rooms with price more only 300 ==
-SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
-
-# ===== 8. SELECT + GROUP BY + HAVING =====
-# == Get max car price, that more then 30k ==
-SELECT * FROM car GROUP BY id_car HAVING MAX(price) > 30000;
-# == get hotel rooms with price more than 300 ==
-SELECT * FROM hotel_room GROUP BY id_hotel_room HAVING MAX(price) > 300;
-# == get hotel rooms with price more only 300 ==
-SELECT * FROM booking_data GROUP BY id_booking_data HAVING MAX(pay) = 300;
+SELECT price, MIN(creation_date) FROM car GROUP BY price HAVING AVG(price) > 30000;
+# == minimal  ==
+SELECT creation_date, MIN(price) FROM car GROUP BY creation_date HAVING MAX(rating) < 3;
+# == count if booking data, that have start date until 2013 ==
+SELECT start_date, SUM(id_booking_data) FROM booking_data GROUP BY start_date HAVING MIN(start_date) > '2013-01-01';
 
 # ===== 9. JOINS =====
 # == LEFT JOIN ==
 SELECT * FROM car LEFT JOIN client c on car.id_client = c.id_client WHERE price > 20000;
 # == RIGHT JOIN ==
-SELECT * FROM car RIGHT JOIN client c on car.id_client = c.id_client WHERE price > 20000;
+SELECT * FROM client RIGHT JOIN car c on client.id_client = c.id_client WHERE price > 20000;
 # == LEFT JOIN 3 tables ==
-SELECT price, c.name, start_date, end_date FROM car LEFT JOIN client c on car.id_client = c.id_client LEFT JOIN booking_data bd on c.id_client = bd.id_client WHERE price > 20000;
+SELECT price, c.name, start_date, end_date FROM car
+    LEFT JOIN client c on car.id_client = c.id_client
+    LEFT JOIN booking_data bd on c.id_client = bd.id_client WHERE price > 20000;
 # == INNER JOIN ==
 SELECT * FROM booking_data INNER JOIN booking_store bs on booking_data.id_booking_data = bs.id_booking_data;
 
@@ -252,7 +256,8 @@ SELECT * FROM booking_data INNER JOIN booking_store bs on booking_data.id_bookin
 # == IN ==
 SELECT * FROM booking_data WHERE id_client IN (SELECT id_client FROM client);
 # == select select... from ==
-SELECT (SELECT id_client FROM booking_data WHERE pay = '3010' LIMIT 1) FROM client;
+SELECT (SELECT id_client FROM booking_data WHERE id_booking_data = '1') FROM client;
+# == select from (select) ==
+SELECT name, birthday FROM (SELECT * FROM client WHERE eye_color <> 'синий') as `c*`;
 # == select from join ==
-SELECT client.name, booking_data.pay FROM client JOIN booking_data booking_data on client.id_client = booking_data.id_client;
-
+# SELECT * FROM client JOIN (SELECT * FROM ) ON id_client;
