@@ -260,4 +260,4 @@ SELECT (SELECT id_client FROM booking_data WHERE id_booking_data = '1') FROM cli
 # == select from (select) ==
 SELECT name, birthday FROM (SELECT * FROM client WHERE eye_color <> 'синий') as `c*`;
 # == select from join ==
-# SELECT * FROM client JOIN (SELECT * FROM ) ON id_client;
+SELECT * FROM client JOIN (SELECT * FROM car) as `car` ON `car`.id_client WHERE `car`.id_client = client.id_client;
