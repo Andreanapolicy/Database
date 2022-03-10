@@ -6,6 +6,7 @@ services:
     ports:
       - 3306:3306
     volumes:
+      - ./sql:/var/lib/mysql
       - ../labs:/etc/labs/sql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
