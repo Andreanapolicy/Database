@@ -34,5 +34,26 @@ WHERE
     room_in_booking.checkin_date < '2019-04-22' AND
     room_in_booking.checkout_date < '2019-04-22';
 
-# === 4. Дать список последних проживавши х клиентов по всем комнатам гостиницы “Космос”, выехавшим в апреле с указанием даты выезда ===
+# === 4. Дать количество проживающих в гостинице "Космос" на 23 марта по каждой категории номеров ===
 
+select COUNT(*), room_category.name from room_category
+    LEFT JOIN room ON room_category.id_room_category = room.id_room_category
+    LEFT JOIN hotel ON room.id_hotel = hotel.id_hotel
+    LEFT JOIN room_in_booking ON room.id_room = room_in_booking.id_room
+WHERE
+    hotel.name = 'Космос' AND
+    room_in_booking.checkin_date < '2019-03-23' AND
+    room_in_booking.checkin_date >= '2019-03-23'
+GROUP BY
+    room_category.id_room_category, room_category.name;
+
+# === 5. Дать список последних проживавших клиентов по всем комнатам гостиницы “Космос”, выехавших в апреле с указанием даты выезда ===
+
+select client.name, room_in_booking.checkout_date from client
+    LEFT JOIN booking ON client.id_client = booking.id_client
+    LEFT JOIN room_in_booking ON booking.id_booking = room_in_booking.id_booking
+    LEFT JOIN room ON room_in_booking.id_room = room.id_room
+    LEFT JOIN hotel ON room.id_hotel = hotel.id_hotel
+WHERE
+    hotel.name = 'Космос' AND
+    MONTH(room_in_booking.checkout_date) = 4;
