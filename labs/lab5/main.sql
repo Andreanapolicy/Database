@@ -69,3 +69,12 @@ WHERE
     hotel.name = 'Космос' AND
     room_category.name = 'Бизнес' AND
     room_in_booking.checkin_date = '2021-05-10';
+
+# === 7. Найти все "пересекающиеся " варианты проживания. ===
+
+select * from room_in_booking AS first_room_in_booking
+    INNER JOIN room_in_booking AS second_room_in_booking ON first_room_in_booking.id_room = second_room_in_booking.id_room
+WHERE
+    first_room_in_booking.id_room_in_booking != second_room_in_booking.id_room_in_booking AND
+    first_room_in_booking.checkin_date <= second_room_in_booking.checkin_date AND
+    first_room_in_booking.checkout_date >= second_room_in_booking.checkout_date;
