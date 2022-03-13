@@ -78,3 +78,12 @@ WHERE
     first_room_in_booking.id_room_in_booking != second_room_in_booking.id_room_in_booking AND
     first_room_in_booking.checkin_date <= second_room_in_booking.checkin_date AND
     first_room_in_booking.checkout_date >= second_room_in_booking.checkout_date;
+
+# === 8. Создать бронирование в транзакции ===
+
+START TRANSACTION;
+    INSERT INTO booking(id_client, booking_date) VALUES(1, NOW());
+    INSERT INTO room_in_booking(id_booking, id_room, checkin_date, checkout_date)
+        VALUES((SELECT id_booking from booking ORDER BY id_booking DESC LIMIT 1), 1, '2022-03-17', '2022-03-18');
+COMMIT;
+
