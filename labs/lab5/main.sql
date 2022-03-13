@@ -12,7 +12,7 @@ ALTER TABLE room_in_booking ADD FOREIGN KEY (id_booking) REFERENCES booking(id_b
 
 ALTER TABLE room_in_booking ADD FOREIGN KEY (id_room) REFERENCES room(id_room);
 
-# === 2. Выдать информацию о клиентах гостиницы “Космос”, проживающих в номерах категории “Люкс” на 1 апреля 2019г ===
+# === 2. Выдать информацию о клиентах гостиницы “Космос”, проживающих в номерах категории “Люкс” на 1 апреля 2021г ===
 
 select client.id_client, client.name from client
     LEFT JOIN booking ON client.id_client = booking.id_client
@@ -23,16 +23,16 @@ select client.id_client, client.name from client
 WHERE
     hotel.name = 'Космос' AND
     room_category.name = 'Люкс' AND
-    room_in_booking.checkin_date < '2019-04-1' AND
-    room_in_booking.checkout_date >= '2019-04-1';
+    room_in_booking.checkin_date < '2021-04-1' AND
+    room_in_booking.checkout_date >= '2021-04-1';
 
 # === 3. Дать список свободных номеров всех гостиниц на 22 апреля ===
 
 select id_hotel, number from room
     LEFT JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 WHERE
-    room_in_booking.checkin_date < '2019-04-22' AND
-    room_in_booking.checkout_date < '2019-04-22';
+    room_in_booking.checkin_date < '2021-04-22' AND
+    room_in_booking.checkout_date < '2021-04-22';
 
 # === 4. Дать количество проживающих в гостинице "Космос" на 23 марта по каждой категории номеров ===
 
@@ -42,8 +42,8 @@ select COUNT(*), room_category.name from room_category
     LEFT JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 WHERE
     hotel.name = 'Космос' AND
-    room_in_booking.checkin_date < '2019-03-23' AND
-    room_in_booking.checkin_date >= '2019-03-23'
+    room_in_booking.checkin_date < '2021-03-23' AND
+    room_in_booking.checkin_date >= '2021-03-23'
 GROUP BY
     room_category.id_room_category, room_category.name;
 
@@ -57,3 +57,15 @@ select client.name, room_in_booking.checkout_date from client
 WHERE
     hotel.name = 'Космос' AND
     MONTH(room_in_booking.checkout_date) = 4;
+
+# === 6. Продлить на 2 дня дату проживания в гостинице “ Космос ” всем клиентам комнат категории “Бизнес”, которые заселились 10 мая. ===
+
+UPDATE room_in_booking
+    INNER JOIN room ON room_in_booking.id_room = room.id_room
+    INNER JOIN hotel ON room.id_hotel = hotel.id_hotel
+    INNER JOIN room_category ON room.id_room_category = room_category.id_room_category
+SET checkout_date = DATE_ADD(checkout_date, INTERVAL 2 DAY )
+WHERE
+    hotel.name = 'Космос' AND
+    room_category.name = 'Бизнес' AND
+    room_in_booking.checkin_date = '2021-05-10';
