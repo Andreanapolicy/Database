@@ -87,3 +87,46 @@ START TRANSACTION;
         VALUES((SELECT id_booking from booking ORDER BY id_booking DESC LIMIT 1), 1, '2022-03-17', '2022-03-18');
 COMMIT;
 
+# === 9. Добавить необходимые индексы для всех таблиц ===
+# == client ==
+CREATE INDEX client_name_idx
+ON client(name ASC);
+
+CREATE INDEX client_id_client_idx
+ON client(id_client ASC);
+
+# == hotel ==
+CREATE INDEX hotel_name_id_hotel_idx
+ON hotel(name ASC, id_hotel ASC);
+
+# == room ==
+CREATE INDEX room_id_room_idx
+ON room(id_room ASC);
+
+CREATE INDEX room_id_room_id_hotel_idx
+ON room(id_room ASC, id_hotel ASC);
+
+CREATE INDEX room_id_room_id_hotel_id_room_category_idx
+ON room(id_room ASC, id_hotel ASC, id_room_category ASC);
+
+# == room_category ==
+CREATE INDEX room_category_id_room_category_name_idx
+ON room_category(id_room_category ASC, name ASC);
+
+# == booking ==
+CREATE INDEX booking_id_client_id_booking_idx
+ON booking(id_booking ASC, id_client ASC);
+
+# == room_in_booking ==
+
+CREATE INDEX room_in_booking_id_room_id_booking_checkin_checkout_date_idx
+ON room_in_booking(id_room ASC, id_booking ASC, checkin_date ASC, checkout_date ASC);
+
+CREATE INDEX room_in_booking_id_room_checkin_date_checkout_date_idx
+ON room_in_booking(id_room ASC, checkin_date ASC, checkout_date ASC);
+
+CREATE INDEX room_in_booking_id_room_id_booking_checkout_date_idx
+ON room_in_booking(id_room ASC, id_booking ASC, checkout_date ASC);
+
+CREATE INDEX room_in_booking_id_room_checkin_date_idx
+ON room_in_booking(id_room ASC, checkin_date ASC);
