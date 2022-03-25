@@ -21,10 +21,10 @@ select client.id_client, client.name from client
     LEFT JOIN room_category ON room_category.id_room_category = room.id_room_category
     LEFT JOIN hotel ON hotel.id_hotel = room.id_hotel
 WHERE
-    hotel.name = 'Космос' AND
-    room_category.name = 'Люкс' AND
-    room_in_booking.checkin_date < '2021-04-1' AND
-    room_in_booking.checkout_date >= '2021-04-1';
+    hotel.id_hotel = 1 AND
+    room_category.id_room_category = 5 AND
+    room_in_booking.checkin_date <= '2021-04-1' AND
+    room_in_booking.checkout_date > '2021-04-1';
 
 # === 3. Дать список свободных номеров всех гостиниц на 22 апреля ===
 
@@ -41,9 +41,9 @@ select COUNT(*), room_category.name from room_category
     LEFT JOIN hotel ON room.id_hotel = hotel.id_hotel
     LEFT JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 WHERE
-    hotel.name = 'Космос' AND
-    room_in_booking.checkin_date < '2021-03-23' AND
-    room_in_booking.checkin_date >= '2021-03-23'
+    hotel.id_hotel = 1 AND
+    room_in_booking.checkin_date <= '2021-03-23' AND
+    room_in_booking.checkin_date > '2021-03-23'
 GROUP BY
     room_category.id_room_category, room_category.name;
 
@@ -55,7 +55,7 @@ select client.name, room_in_booking.checkout_date from client
     LEFT JOIN room ON room_in_booking.id_room = room.id_room
     LEFT JOIN hotel ON room.id_hotel = hotel.id_hotel
 WHERE
-    hotel.name = 'Космос' AND
+    hotel.id_hotel = 1 AND
     MONTH(room_in_booking.checkout_date) = 4;
 
 # === 6. Продлить на 2 дня дату проживания в гостинице “ Космос ” всем клиентам комнат категории “Бизнес”, которые заселились 10 мая. ===
@@ -66,8 +66,8 @@ UPDATE room_in_booking
     INNER JOIN room_category ON room.id_room_category = room_category.id_room_category
 SET checkout_date = DATE_ADD(checkout_date, INTERVAL 2 DAY )
 WHERE
-    hotel.name = 'Космос' AND
-    room_category.name = 'Бизнес' AND
+    hotel.id_hotel = 1 AND
+    room_category.id_room_category = 3 AND
     room_in_booking.checkin_date = '2021-05-10';
 
 # === 7. Найти все "пересекающиеся " варианты проживания. ===
