@@ -233,11 +233,11 @@ SELECT MIN(price) FROM car;
 SELECT COUNT(eye_color) FROM client GROUP BY eye_color;
 
 # ===== 8. SELECT + GROUP BY + HAVING =====
-# == Get max car price, that more then 30k ==
+# == Get max car recently released with price more then 30k  ==
 SELECT price, MIN(creation_date) FROM car GROUP BY price HAVING AVG(price) > 30000;
-# == minimal  ==
+# == get cars date and price(bu minimal) with rating less then 3  ==
 SELECT creation_date, MIN(price) FROM car GROUP BY creation_date HAVING MAX(rating) < 3;
-# == count if booking data, that have start date until 2013 ==
+# == count bookings, that have start date until 2013 ==
 SELECT start_date, SUM(id_booking_data) FROM booking_data GROUP BY start_date HAVING MIN(start_date) > '2013-01-01';
 
 # ===== 9. JOINS =====
