@@ -38,7 +38,7 @@ WHERE
 
 # === 3. Дать список лекарств компании “Фарма”, на которые не были сделаны заказы до 25 января. ===
 
-SELECT * FROM medicine
+SELECT medicine.name FROM medicine
     LEFT JOIN production ON medicine.id_medicine = production.id_medicine
     LEFT JOIN `order` ON production.id_production = `order`.id_production
     LEFT JOIN company ON production.id_company = company.id_company
@@ -87,3 +87,44 @@ SET
 WHERE
     production.price > 3000 AND
     medicine.cure_duration <= 7;
+
+# === 7. Добавить необходимые индексы ===
+
+# == company ==
+CREATE INDEX company_id_company_idx
+    ON company(id_company ASC);
+
+CREATE INDEX company_name_idx
+    ON company(name ASC);
+
+# == dealer ==
+CREATE INDEX dealer_id_dealer_idx
+    ON dealer(id_dealer ASC);
+
+# == medicine ==
+CREATE INDEX medicine_id_medicine_idx
+    ON medicine(id_medicine ASC);
+
+CREATE INDEX medicine_name_idx
+    ON medicine(name ASC);
+
+CREATE INDEX medicine_cure_duration_idx
+    ON medicine(cure_duration ASC);
+
+# == order ==
+CREATE INDEX order_id_order_idx
+    ON `order`(id_order ASC);
+
+CREATE INDEX order_id_order_idx
+    ON `order`(date ASC);
+
+# == pharmacy ==
+CREATE INDEX pharmacy_id_pharmacy_idx
+    ON pharmacy(id_pharmacy ASC);
+
+# == production ==
+CREATE INDEX production_id_production_idx
+    ON production(id_production ASC);
+
+CREATE INDEX production_price_idx
+    ON production(price ASC);
