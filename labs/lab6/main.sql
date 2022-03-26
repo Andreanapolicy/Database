@@ -58,3 +58,13 @@ GROUP BY
 #     `order`.date < '2020-01-25'
 # GROUP BY
 #     medicine.id_medicine;
+
+# === 4. Дать минимальный и максимальный баллы лекарств каждой фирмы, которая оформила не менее 120 заказов ===
+
+SELECT company.name, MIN(rating), MAX(rating) FROM production
+    INNER JOIN company ON production.id_company = company.id_company
+    INNER JOIN `order` ON production.id_production = `order`.id_production
+GROUP BY
+    company.name
+HAVING
+    COUNT(`order`.id_order) >= 120;
