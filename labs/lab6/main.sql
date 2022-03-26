@@ -17,7 +17,7 @@ ALTER TABLE `order` ADD FOREIGN KEY (id_production) REFERENCES production(id_pro
 
 # === 2. Выдать информацию по всем заказам лекарства “Кордерон” компании “Аргус” с указанием названий аптек, дат, объема заказов. ===
 
-SELECT pharmacy.name, `order`.date, `order`.quantity from medicine
+SELECT pharmacy.name, `order`.date, `order`.quantity FROM medicine
     INNER JOIN production ON medicine.id_medicine = production.id_medicine
     INNER JOIN `order` ON production.id_production = `order`.id_production
     INNER JOIN company ON production.id_company = company.id_company
@@ -36,4 +36,25 @@ WHERE
 #     medicine.id_medicine = 10 AND
 #     company.id_company = 7;
 
-# === 3. Выдать информацию по всем заказам лекарства “Кордерон” компании “Аргус” с указанием названий аптек, дат, объема заказов. ===
+# === 3. Дать список лекарств компании “Фарма”, на которые не были сделаны заказы до 25 января. ===
+
+SELECT * FROM medicine
+    LEFT JOIN production ON medicine.id_medicine = production.id_medicine
+    LEFT JOIN `order` ON production.id_production = `order`.id_production
+    LEFT JOIN company ON production.id_company = company.id_company
+WHERE
+    company.name = 'Фарма' AND
+    `order`.date < '2020-01-25'
+GROUP BY
+    medicine.id_medicine;
+
+#== Это для просмотра в контейнере ==
+# SELECT medicine.name FROM medicine
+#     LEFT JOIN production ON medicine.id_medicine = production.id_medicine
+#     LEFT JOIN `order` ON production.id_production = `order`.id_production
+#     LEFT JOIN company ON production.id_company = company.id_company
+# WHERE
+#     company.id_company = 8 AND
+#     `order`.date < '2020-01-25'
+# GROUP BY
+#     medicine.id_medicine;
