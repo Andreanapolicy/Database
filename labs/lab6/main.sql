@@ -77,3 +77,13 @@ SELECT pharmacy.name, dealer.name, `order`.quantity FROM dealer
     LEFT JOIN pharmacy ON `order`.id_pharmacy = pharmacy.id_pharmacy
 WHERE
     company.name = 'AstraZeneca';
+
+# === 6. Уменьшить на 20% стоимость всех лекарств, если она превышает 3000, а длительность лечения не более 7 дней ===
+
+UPDATE production
+    LEFT JOIN medicine ON production.id_medicine = medicine.id_medicine
+SET
+    production.price = production.price * 0.8
+WHERE
+    production.price > 3000 AND
+    medicine.cure_duration <= 7;
