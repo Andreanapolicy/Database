@@ -68,3 +68,12 @@ GROUP BY
     company.name
 HAVING
     COUNT(`order`.id_order) >= 120;
+
+# === 5. Дать списки сделавших заказы аптек по всем дилерам компании “AstraZeneca”. Если у дилера нет заказов, в названии аптеки проставить NULL ===
+
+SELECT pharmacy.name, dealer.name, `order`.quantity FROM dealer
+    LEFT JOIN company ON dealer.id_company = company.id_company
+    LEFT JOIN `order` ON dealer.id_dealer = `order`.id_dealer
+    LEFT JOIN pharmacy ON `order`.id_pharmacy = pharmacy.id_pharmacy
+WHERE
+    company.name = 'AstraZeneca';
