@@ -35,3 +35,23 @@ CREATE OR REPLACE VIEW informatics_marks AS
 #         subject.id_subject = 2;
 
 SELECT * FROM informatics_marks;
+
+# === 3. Дать информацию о должниках с указанием фамилии студента и названия предмета. Должниками считаются студенты,
+# не имеющие оценки по предмету, который ведется в группе. Оформить в виде процедуры, на входе идентификатор группы ===
+DROP PROCEDURE IF EXISTS debtor_info;
+CREATE PROCEDURE debtor_info(IN group_id INT)
+BEGIN
+    SELECT student.name, subject.name FROM student
+        LEFT JOIN `group` ON student.id_group = `group`.id_group
+        LEFT JOIN lesson ON lesson.id_group = `group`.id_group
+        LEFT JOIN mark ON mark.id_lesson = lesson.id_lesson AND mark.id_student = student.id_student
+        LEFT JOIN subject ON student.name = subject.name
+    WHERE
+        student.id_group = group_id
+    GROUP BY
+        student.name, subject.name
+    HAVING
+        COUNT(mark.mark) = 0;
+END;
+
+CALL debtor_info(2);
