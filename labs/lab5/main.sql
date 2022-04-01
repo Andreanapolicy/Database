@@ -28,11 +28,13 @@ WHERE
 
 # === 3. Дать список свободных номеров всех гостиниц на 22 апреля ===
 
-select id_hotel, number from room
+select room.id_room, id_hotel, number from room
     LEFT JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 WHERE
     room_in_booking.checkin_date < '2021-04-22' AND
-    room_in_booking.checkout_date < '2021-04-22';
+    room_in_booking.checkout_date < '2021-04-22' OR
+    room_in_booking.checkout_date IS NULL
+ORDER BY 1;
 
 # === 4. Дать количество проживающих в гостинице "Космос" на 23 марта по каждой категории номеров ===
 

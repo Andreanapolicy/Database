@@ -44,7 +44,8 @@ SELECT medicine.name FROM medicine
     LEFT JOIN company ON production.id_company = company.id_company
 WHERE
     company.name = 'Фарма' AND
-    `order`.date < '2020-01-25'
+    (`order`.date < '2020-01-25' OR
+    `order`.date IS NULL)
 GROUP BY
     medicine.id_medicine;
 
@@ -55,7 +56,8 @@ GROUP BY
 #     LEFT JOIN company ON production.id_company = company.id_company
 # WHERE
 #     company.id_company = 8 AND
-#     `order`.date < '2020-01-25'
+#     (`order`.date < '2020-01-25'OR
+#     `order`.date IS NULL)
 # GROUP BY
 #     medicine.id_medicine;
 
@@ -91,20 +93,10 @@ WHERE
 # === 7. Добавить необходимые индексы ===
 
 # == company ==
-CREATE INDEX company_id_company_idx
-    ON company(id_company ASC);
-
 CREATE INDEX company_name_idx
     ON company(name ASC);
 
-# == dealer ==
-CREATE INDEX dealer_id_dealer_idx
-    ON dealer(id_dealer ASC);
-
 # == medicine ==
-CREATE INDEX medicine_id_medicine_idx
-    ON medicine(id_medicine ASC);
-
 CREATE INDEX medicine_name_idx
     ON medicine(name ASC);
 
@@ -113,14 +105,9 @@ CREATE INDEX medicine_cure_duration_idx
 
 # == order ==
 CREATE INDEX order_id_order_idx
-    ON `order`(id_order ASC);
-
-CREATE INDEX order_id_order_idx
     ON `order`(date ASC);
 
 # == pharmacy ==
-CREATE INDEX pharmacy_id_pharmacy_idx
-    ON pharmacy(id_pharmacy ASC);
 
 # == production ==
 CREATE INDEX production_id_production_idx
