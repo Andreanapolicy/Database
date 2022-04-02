@@ -44,8 +44,11 @@ SELECT medicine.name FROM medicine
     LEFT JOIN company ON production.id_company = company.id_company
 WHERE
     company.name = 'Фарма' AND
-    (`order`.date < '2020-01-25' OR
-    `order`.date IS NULL)
+    production.id_production NOT IN (
+        SELECT `order`.id_production FROM `order`
+        WHERE
+            `order`.date < '2019-01-25'
+    )
 GROUP BY
     medicine.id_medicine;
 
@@ -56,8 +59,11 @@ GROUP BY
 #     LEFT JOIN company ON production.id_company = company.id_company
 # WHERE
 #     company.id_company = 8 AND
-#     (`order`.date < '2020-01-25'OR
-#     `order`.date IS NULL)
+#     production.id_production NOT IN (
+#         SELECT `order`.id_production FROM `order`
+#         WHERE
+#             `order`.date < '2019-01-25'
+#     )
 # GROUP BY
 #     medicine.id_medicine;
 
