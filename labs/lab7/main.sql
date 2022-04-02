@@ -71,3 +71,23 @@ GROUP BY
     subject.name
 HAVING
     COUNT(student.id_student) >= 35;
+
+# === 5. Дать оценки студентов специальности ВМ по всем проводимым предметам с указанием группы, фамилии, предмета,
+# даты. При отсутствии оценки заполнить значениями NULL поля оценки ===
+
+SELECT lesson.date, mark.mark, student.name, subject.name FROM student
+    LEFT JOIN `group` ON student.id_group = `group`.id_group
+    LEFT JOIN lesson ON `group`.id_group = lesson.id_subject
+    LEFT JOIN mark ON lesson.id_lesson = mark.id_lesson
+    LEFT JOIN subject ON lesson.id_subject = subject.id_subject
+WHERE
+    `group`.name = 'ВМ';
+
+#== Это для просмотра в контейнере ==
+# SELECT lesson.date, mark.mark, student.name, subject.name FROM student
+#     LEFT JOIN `group` ON student.id_group = `group`.id_group
+#     LEFT JOIN lesson ON `group`.id_group = lesson.id_subject
+#     LEFT JOIN mark ON lesson.id_lesson = mark.id_lesson
+#     LEFT JOIN subject ON lesson.id_subject = subject.id_subject
+# WHERE
+#     `group`.id_group = 3;
