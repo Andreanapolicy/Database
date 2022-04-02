@@ -59,3 +59,15 @@ END$
 DELIMITER ;
 
 CALL debtor_info(1);
+
+# === 4. Дать среднюю оценку студентов по каждому предмету для тех предметов, по которым занимается не менее 35 студентов ===
+
+SELECT subject.name, AVG(mark.mark) from subject
+    INNER JOIN lesson ON subject.id_subject = lesson.id_subject
+    INNER JOIN `group` ON lesson.id_group = `group`.id_group
+    INNER JOIN mark ON lesson.id_lesson = mark.id_lesson
+    INNER JOIN student ON `group`.id_group = student.id_group
+GROUP BY
+    subject.name
+HAVING
+    COUNT(student.id_student) >= 35;
