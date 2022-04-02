@@ -120,3 +120,21 @@ WHERE
 #     subject.id_subject = 1 AND
 #     `group`.id_group = 1 AND
 #     lesson.date < '2019-05-12';
+
+# === 7. Добавить необходимые индексы ===
+
+# == group ==
+CREATE INDEX group_name_idx
+    ON `group`(name ASC);
+
+# == lesson ==
+CREATE INDEX lesson_date_idx
+    ON lesson(date ASC);
+
+# == mark ==
+CREATE INDEX mark_mark_idx
+    ON mark(mark ASC);
+
+# == subject ==
+CREATE INDEX subject_name_idx
+    ON subject(name ASC);
