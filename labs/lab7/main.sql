@@ -38,6 +38,8 @@ SELECT * FROM informatics_marks;
 
 # === 3. Дать информацию о должниках с указанием фамилии студента и названия предмета. Должниками считаются студенты,
 # не имеющие оценки по предмету, который ведется в группе. Оформить в виде процедуры, на входе идентификатор группы ===
+DELIMITER $
+
 DROP PROCEDURE IF EXISTS debtor_info;
 CREATE PROCEDURE debtor_info(IN group_id INT)
 BEGIN
@@ -51,7 +53,9 @@ BEGIN
     GROUP BY
         student.name, subject.name
     HAVING
-        COUNT(mark.mark) = 0;
-END;
+            COUNT(mark.mark) = 0;
+END$
 
-CALL debtor_info(2);
+DELIMITER ;
+
+CALL debtor_info(1);
