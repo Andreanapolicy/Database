@@ -91,3 +91,32 @@ WHERE
 #     LEFT JOIN subject ON lesson.id_subject = subject.id_subject
 # WHERE
 #     `group`.id_group = 3;
+
+# === 6. Всем студентам специальности ПС, получившим оценки меньшие 5 по предмету БД до 12.05, повысить эти оценки на 1 балл ===
+
+UPDATE mark
+    INNER JOIN student ON mark.id_student = student.id_student
+    INNER JOIN `group` ON student.id_group = `group`.id_group
+    INNER JOIN lesson ON `group`.id_group = lesson.id_group
+    INNER JOIN subject ON lesson.id_subject = subject.id_subject
+SET
+    mark.mark = mark.mark + 1
+WHERE
+    mark.mark < 5 AND
+    subject.name = 'БД' AND
+    `group`.name = 'ПС' AND
+    lesson.date < '2019-05-12';
+
+#== Это для просмотра в контейнере ==
+# UPDATE mark
+#     INNER JOIN student ON mark.id_student = student.id_student
+#     INNER JOIN `group` ON student.id_group = `group`.id_group
+#     INNER JOIN lesson ON `group`.id_group = lesson.id_group
+#     INNER JOIN subject ON lesson.id_subject = subject.id_subject
+# SET
+#     mark.mark = mark.mark + 1
+# WHERE
+#     mark.mark < 5 AND
+#     subject.id_subject = 1 AND
+#     `group`.id_group = 1 AND
+#     lesson.date < '2019-05-12';
