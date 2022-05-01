@@ -188,6 +188,9 @@ async function main()
 
     //== Записи по значению в массиве ==
     console.log('Записи по значению в массиве', await collection.find({'client.car': {'$elemMatch': {'rating': {'$gt': 3, '$lt': 13}}}}).toArray());
+
+    //== Записи по кол-ву элементов в массиве ==
+    console.log('Записи по кол-ву элементов в массиве', await collection.find({'client.car': {'$size': 3}}).toArray());
 }
 
 main()
