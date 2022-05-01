@@ -123,6 +123,11 @@ async function main()
 
     //== Поиск по ID ==
     collection.find({'_id': ObjectId('626e84d25f21a1a868156fba')});
+    //db.booking.find({'_id': ObjectId('626e84d25f21a1a868156fba')})
+
+    //== Записи по атрибуту первого уровня ==
+    collection.find({'pay': 1500});
+    //db.booking.find({'pay': 1500})
 }
 
 main()
