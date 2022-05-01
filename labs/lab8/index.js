@@ -197,7 +197,10 @@ async function main()
     //=== 3.5 Обновление записей ===
 
     //== Изменить значение атрибута у записи ==
-    await collection.replaceOne({'client.birthday': '1997-12-12'}, {'room.room_style': 'Русский постмадерн'});
+    await collection.updateOne({'client.birthday': '1997-12-12'}, {'$set': {'room.room_style': 'Русский постмадерн'}});
+
+    //== Удалить атрибут у записи ==
+    await collection.updateMany({'client.address': {'$exists': false}}, {'$unset': {'eye_color': 1}});
 }
 
 main()
