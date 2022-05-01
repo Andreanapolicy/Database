@@ -131,7 +131,7 @@ async function main()
     console.log('Записи по вложенному атрибуту', await collection.findOne({'client.birthday': '1997-12-12'}));
 
     //== Записи по нескольким атрибутам ==
-    console.log('Записи по нескольким атрибутам', await collection.findOne({'client.birthday': '1997-12-12', 'pay': 1500}));
+    console.log('Записи по нескольким атрибутам', await collection.findOne({'$and': [{'client.birthday': '1997-12-12'}, {'pay': 1500}]}));
 }
 
 main()
