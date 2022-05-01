@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId} = require('mongodb');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -119,7 +119,10 @@ async function main()
     //== Удаление 2 и более записи ==
     await collection.deleteMany({'pay': 6504});
 
-    return 'done.';
+    //=== 3.4 Поиск записей ===
+
+    //== Поиск по ID ==
+    collection.find({'_id': ObjectId('626e84d25f21a1a868156fba')});
 }
 
 main()
