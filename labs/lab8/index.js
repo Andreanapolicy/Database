@@ -135,6 +135,9 @@ async function main()
 
     //== Записи по нескольким атрибутам(or) ==
     console.log('Записи по нескольким атрибутам(or)', await collection.find({'$or': [{'client.birthday': '1997-12-12'}, {'client.birthday': '1987-04-05'}]}).toArray());
+
+    //== Записи с использованием оператора сравнения ==
+    console.log('Записи с использованием оператора сравнения', await collection.find({'pay': {'$gt': 1500}}).toArray());
 }
 
 main()
