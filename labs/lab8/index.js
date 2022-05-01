@@ -52,6 +52,38 @@ async function main()
         'pay': 6504,
     });
 
+    await collection.insertOne({
+        'room': {
+            'create_date': '2022-04-05',
+            'price': 500,
+            'style_name': 'Андреанский стиль',
+            'number': 301,
+            'cleaner': {
+                'birthday': '1987-12-10',
+                'name': 'Ашот',
+                'address': 'Ленового 8',
+                'eye_color': 'черный',
+            },
+        },
+        'client': {
+            'birthday': '1987-04-05',
+            'name': 'Антон',
+            'address': 'Урчалово 8',
+            'eye_color': 'зеленый',
+            'car': [
+                {
+                    'creation_date': '2022-04-05',
+                    'name': 'Урчатель',
+                    'price': 20000,
+                    'rating': 1
+                }
+            ]
+        },
+        'start_date': '2023-04-05',
+        'end_date': '2023-05-05',
+        'pay': 6504,
+    });
+
     //== Вставка 2 и бодее записей ==
     await collection.insertMany([
         {
@@ -78,6 +110,18 @@ async function main()
                         'name': 'Малыш',
                         'price': 12305484,
                         'rating': 12
+                    },
+                    {
+                        'creation_date': '1999-03-17',
+                        'name': 'Бойскаут',
+                        'price': 235486,
+                        'rating': 103
+                    },
+                    {
+                        'creation_date': '2012-11-09',
+                        'name': 'Император',
+                        'price': 500000,
+                        'rating': 3
                     }
                 ]
             },
@@ -141,6 +185,9 @@ async function main()
 
     //== Записи с использованием двух операторов сравнения ==
     console.log('Записи с использованием двух операторов сравнения', await collection.find({'pay': {'$gt': 1500, '$lt': 6000}}).toArray());
+
+    //== Записи по значению в массиве ==
+    console.log('Записи по значению в массиве', await collection.find({'client.car': {'$elemMatch': {'rating': {'$gt': 3, '$lt': 13}}}}).toArray());
 }
 
 main()
