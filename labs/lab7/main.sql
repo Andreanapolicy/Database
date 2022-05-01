@@ -15,7 +15,8 @@ ALTER TABLE mark ADD FOREIGN KEY (id_lesson) REFERENCES lesson(id_lesson);
 
 ALTER TABLE mark ADD FOREIGN KEY (id_student) REFERENCES student(id_student);
 
-# === 2. Выдать оценки студентов по информатике если они обучаются данному предмету. Оформить выдачу данных с использованием view ===
+# === 2. Выдать оценки студентов по информатике если они обучаются данному предмету.
+# Оформить выдачу данных с использованием view ===
 
 CREATE OR REPLACE VIEW informatics_marks AS
     SELECT student.name, mark.mark from mark
@@ -26,7 +27,7 @@ CREATE OR REPLACE VIEW informatics_marks AS
         subject.name = 'Информатика';
 
 #== Это для просмотра в контейнере ==
-# CREATE VIEW informatics_marks AS
+# CREATE OR REPLACE VIEW informatics_marks AS
 #     SELECT student.name, mark.mark from mark
 #         LEFT JOIN lesson ON mark.id_lesson = lesson.id_lesson
 #         LEFT JOIN student ON mark.id_student = student.id_student
@@ -36,11 +37,12 @@ CREATE OR REPLACE VIEW informatics_marks AS
 
 SELECT * FROM informatics_marks;
 
-# === 3. Дать информацию о должниках с указанием фамилии студента и названия предмета. Должниками считаются студенты,
-# не имеющие оценки по предмету, который ведется в группе. Оформить в виде процедуры, на входе идентификатор группы ===
+# === 3. Дать информацию о должниках с указанием фамилии студента и названия предмета.
+# Должниками считаются студенты, не имеющие оценки по предмету, который ведется в группе.
+# Оформить в виде процедуры, на входе идентификатор группы ===
 DELIMITER $
 
-DROP PROCEDURE IF EXISTS debtor_info;
+DROP PROCEDURE IF EXISTS debtor_info$
 CREATE PROCEDURE debtor_info(IN group_id INT)
 BEGIN
     SELECT student.name, subject.name FROM student
@@ -60,7 +62,8 @@ DELIMITER ;
 
 CALL debtor_info(1);
 
-# === 4. Дать среднюю оценку студентов по каждому предмету для тех предметов, по которым занимается не менее 35 студентов ===
+# === 4. Дать среднюю оценку студентов по каждому предмету для тех предметов,
+# по которым занимается не менее 35 студентов ===
 
 SELECT subject.name, AVG(mark.mark) from subject
     INNER JOIN lesson ON subject.id_subject = lesson.id_subject
@@ -92,7 +95,8 @@ WHERE
 # WHERE
 #     `group`.id_group = 3;
 
-# === 6. Всем студентам специальности ПС, получившим оценки меньшие 5 по предмету БД до 12.05, повысить эти оценки на 1 балл ===
+# === 6. Всем студентам специальности ПС, получившим оценки меньшие 5 по предмету
+# БД до 12.05, повысить эти оценки на 1 балл ===
 
 UPDATE mark
     INNER JOIN student ON mark.id_student = student.id_student
