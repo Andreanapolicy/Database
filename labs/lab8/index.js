@@ -193,6 +193,11 @@ async function main()
 
     //== Записи без атрибута ==
     console.log('Записи без атрибута', await collection.find({'client.address': {'$exists': false}}).toArray());
+
+    //=== 3.5 Обновление записей ===
+
+    //== Изменить значение атрибута у записи ==
+    await collection.replaceOne({'client.birthday': '1997-12-12'}, {'room.room_style': 'Русский постмадерн'});
 }
 
 main()
