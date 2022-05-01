@@ -111,6 +111,14 @@ async function main()
         },
     ]);
 
+    //=== 3.3 Удаление записей ===
+
+    //== Удаление 1 записи ==
+    await collection.deleteOne({'pay': 300});
+
+    //== Удаление 2 и более записи ==
+    await collection.deleteMany({'pay': 6504});
+
     return 'done.';
 }
 
