@@ -201,6 +201,9 @@ async function main()
 
     //== Удалить атрибут у записи ==
     await collection.updateMany({'client.address': {'$exists': false}}, {'$unset': {'eye_color': 1}});
+
+    //== Добавление атрибута к записи ==
+    await collection.updateMany({'client.address': {'$exists': false}}, {'$push': {'client.muscles': true}});
 }
 
 main()
