@@ -114,7 +114,7 @@ async function main()
     //=== 3.3 Удаление записей ===
 
     //== Удаление 1 записи ==
-    await collection.deleteOne({'pay': 300});
+   await collection.deleteOne({'pay': 300});
 
     //== Удаление 2 и более записи ==
     await collection.deleteMany({'pay': 6504});
@@ -130,8 +130,11 @@ async function main()
     //== Записи по вложенному атрибуту ==
     console.log('Записи по вложенному атрибуту', await collection.findOne({'client.birthday': '1997-12-12'}));
 
-    //== Записи по нескольким атрибутам ==
-    console.log('Записи по нескольким атрибутам', await collection.findOne({'$and': [{'client.birthday': '1997-12-12'}, {'pay': 1500}]}));
+    //== Записи по нескольким атрибутам(and) ==
+    console.log('Записи по нескольким атрибутам(and)', await collection.findOne({'$and': [{'client.birthday': '1997-12-12'}, {'pay': 1500}]}));
+
+    //== Записи по нескольким атрибутам(or) ==
+    console.log('Записи по нескольким атрибутам(or)', await collection.find({'$or': [{'client.birthday': '1997-12-12'}, {'client.birthday': '1987-04-05'}]}).toArray());
 }
 
 main()
