@@ -102,7 +102,6 @@ async function main()
             'client': {
                 'birthday': '1997-12-12',
                 'name': 'Эдуард',
-                'address': 'Комецких 1',
                 'eye_color': 'зеленый',
                 'car': [
                     {
@@ -191,6 +190,9 @@ async function main()
 
     //== Записи по кол-ву элементов в массиве ==
     console.log('Записи по кол-ву элементов в массиве', await collection.find({'client.car': {'$size': 3}}).toArray());
+
+    //== Записи без атрибута ==
+    console.log('Записи без атрибута', await collection.find({'client.address': {'$exists': false}}).toArray());
 }
 
 main()
