@@ -52,6 +52,65 @@ async function main()
         'pay': 6504,
     });
 
+    //== Вставка 2 и бодее записей ==
+    await collection.insertMany([
+        {
+            'room': {
+                'create_date': '1991-01-26',
+                'price': 102,
+                'style_name': 'Такой себе стиль',
+                'number': 102,
+                'cleaner': {
+                    'birthday': '1987-12-10',
+                    'name': 'Джамшут',
+                    'address': 'Азербайджанского 36',
+                    'eye_color': 'смольный',
+                },
+            },
+            'client': {
+                'birthday': '1997-12-12',
+                'name': 'Эдуард',
+                'address': 'Комецких 1',
+                'eye_color': 'зеленый',
+                'car': [
+                    {
+                        'creation_date': '1978-12-05',
+                        'name': 'Малыш',
+                        'price': 12305484,
+                        'rating': 12
+                    }
+                ]
+            },
+            'start_date': '2022-09-23',
+            'end_date': '2023-09-26',
+            'pay': 1500,
+        },
+        {
+            'room': {
+                'create_date': '2021-06-24',
+                'price': 2500,
+                'style_name': 'Авангард',
+                'number': 736,
+                'cleaner': {
+                    'birthday': '1987-12-10',
+                    'name': 'Рапшан',
+                    'address': 'Ленового 17',
+                    'eye_color': 'коричневый',
+                },
+            },
+            'client': {
+                'birthday': '1987-04-05',
+                'name': 'Владимир',
+                'address': 'Малевого 27',
+                'eye_color': 'красный',
+                'car': []
+            },
+            'start_date': '2022-06-15',
+            'end_date': '2023-06-16',
+            'pay': 300,
+        },
+    ]);
+
     return 'done.';
 }
 
