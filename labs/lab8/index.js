@@ -122,12 +122,13 @@ async function main()
     //=== 3.4 Поиск записей ===
 
     //== Поиск по ID ==
-    collection.find({'_id': ObjectId('626e84d25f21a1a868156fba')});
-    //db.booking.find({'_id': ObjectId('626e84d25f21a1a868156fba')})
+    console.log('Поиск по ID', await collection.findOne({'_id': ObjectId('626e84d25f21a1a868156fba')}));
 
     //== Записи по атрибуту первого уровня ==
-    collection.find({'pay': 1500});
-    //db.booking.find({'pay': 1500})
+    console.log('Записи по атрибуту первого уровня', await collection.findOne({'pay': 1500}));
+
+    //== Записи по вложенному атрибуту ==
+    console.log('Записи по вложенному атрибуту', await collection.findOne({'client.birthday': '1997-12-12'}));
 }
 
 main()
