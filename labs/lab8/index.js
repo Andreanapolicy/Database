@@ -197,13 +197,13 @@ async function main()
     //=== 3.5 Обновление записей ===
 
     //== Изменить значение атрибута у записи ==
-    await collection.updateOne({'client.birthday': '1997-12-12'}, {'$set': {'room.room_style': 'Русский постмадерн'}});
+    await collection.updateOne({'client.birthday': '1997-12-12'}, {'$set': {'room.room_style': 'Авангардизм'}});
 
     //== Удалить атрибут у записи ==
-    await collection.updateMany({'client.address': {'$exists': false}}, {'$unset': {'eye_color': 1}});
+    await collection.updateMany({'client.address': {'$exists': false}}, {'$unset': {'client.eye_color': ''}});
 
     //== Добавление атрибута к записи ==
-    await collection.updateMany({'client.address': {'$exists': false}}, {'$push': {'client.muscles': true}});
+     await collection.updateMany({'client.address': {'$exists': false}}, {'$set': {'client.eye_color': "зеленый"}});
 }
 
 main()
